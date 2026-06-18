@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- 克隆 IndexTTS2 源码 ----
-RUN git clone https://github.com/IndexTeam/IndexTTS-2.git /app/IndexTTS-2
+# ---- 克隆 IndexTTS2 源码（自动重试 3 次） ----
+RUN for i in 1 2 3; do git clone https://github.com/IndexTeam/IndexTTS-2.git /app/IndexTTS-2 && break; sleep 5; done
 
 # ---- Python 依赖 ----
 COPY app-tts/requirements.txt /app/requirements.txt
