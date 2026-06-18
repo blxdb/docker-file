@@ -1,0 +1,11 @@
+.git/
+.gitignore
+.github/
+build-records/
+images/
+__pycache__/
+*.pyc
+*.md
+.DS_Store
+Thumbs.db
+共绩算力登陆.txt

@@ -1,0 +1,21 @@
+# 模型权重文件（太大，不提交 git）
+models/
+
+# 构建产物
+build-records/
+images/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# 敏感信息
+.env
+共绩算力登陆.txt
+*.log
+
+# 系统
+.DS_Store
+Thumbs.db
