@@ -1,4 +1,4 @@
-name: Build & Push to 共绩算力 Harbor
+name: Build and Push to Harbor
 
 on:
   push:
