@@ -16,24 +16,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # ---- 克隆 IndexTTS2 源码 ----
-# 使用 ghfast.top 代理加速国内访问
-RUN git clone https://ghfast.top/https://github.com/IndexTeam/IndexTTS-2.git /app/IndexTTS-2 \
-    || git clone https://github.com/IndexTeam/IndexTTS-2.git /app/IndexTTS-2
-
-# 设置 HuggingFace 镜像站（国内加速）
-ENV HF_ENDPOINT=https://hf-mirror.com
-ENV HF_HUB_DOWNLOAD_TIMEOUT=120
+RUN git clone https://github.com/IndexTeam/IndexTTS-2.git /app/IndexTTS-2
 
 # ---- Python 依赖 ----
 COPY app-tts/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# ---- 预下载 WhisperX 中文对齐模型（避免运行时下载慢） ----
-RUN python3 -c "import os; os.environ['HF_ENDPOINT']='https://hf-mirror.com'; from huggingface_hub import snapshot_download; snapshot_download('jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn', local_dir='/app/models/align-zh'); print('对齐模型已下载')"
-
-# ---- 模型权重（本地预下载后打包） ----
-COPY models/indextts2 /app/models/indextts2
-COPY models/whisper /app/models/whisper
+# ---- 下载模型权重（构建时缓存，不提交 git） ----
+# IndexTTS2 模型
+RUN python3 -c "from huggingface_hub import snapshot_download; snapshot_download('IndexTeam/IndexTTS-2', local_dir='/app/models/indextts2'); print('IndexTTS2 模型已下载')"
+# Whisper 模型
+RUN python3 -c "from huggingface_hub import snapshot_download; snapshot_download('openai/whisper-large-v3-turbo', local_dir='/app/models/whisper'); print('Whisper 模型已下载')"
+# 中文对齐模型
+RUN python3 -c "from huggingface_hub import snapshot_download; snapshot_download('jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn', local_dir='/app/models/align-zh'); print('对齐模型已下载')"
 
 # ---- 参考音频 & 输入文本 ----
 COPY voices /app/voices
