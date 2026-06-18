@@ -29,15 +29,7 @@ COPY app-tts/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # ---- 预下载 WhisperX 中文对齐模型（避免运行时下载慢） ----
-RUN python -c "
-import os
-os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
-from huggingface_hub import snapshot_download
-# 中文对齐模型
-snapshot_download('jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn',
-                  local_dir='/app/models/align-zh')
-print('对齐模型已下载')
-"
+RUN python3 -c "import os; os.environ['HF_ENDPOINT']='https://hf-mirror.com'; from huggingface_hub import snapshot_download; snapshot_download('jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn', local_dir='/app/models/align-zh'); print('对齐模型已下载')"
 
 # ---- 模型权重（本地预下载后打包） ----
 COPY models/indextts2 /app/models/indextts2
