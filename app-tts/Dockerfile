@@ -2,7 +2,7 @@
 # app-tts — IndexTTS2 + Whisper 配音 & 字幕对齐
 # slim 基础 + pip 清华镜像 + HF 国内镜像
 # ============================================================
-FROM python:3.11-slim
+FROM docker.m.daocloud.io/library/python:3.11-slim
 
 LABEL description="IndexTTS2 配音 + Whisper 字幕对齐"
 
