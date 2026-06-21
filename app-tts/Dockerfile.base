@@ -25,8 +25,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # ---- 克隆 IndexTTS2 源码（国内镜像 + 3次重试） ----
 RUN for i in 1 2 3; do \
-      git clone https://ghfast.top/https://github.com/IndexTeam/IndexTTS-2.git /app/IndexTTS-2 && break; \
-      git clone https://github.com/IndexTeam/IndexTTS-2.git /app/IndexTTS-2 && break; \
+      git clone https://ghfast.top/https://github.com/iszhanjiawei/indexTTS2.git /app/IndexTTS-2 && break; \
+      git clone https://github.com/iszhanjiawei/indexTTS2.git /app/IndexTTS-2 && break; \
       echo "重试 $i..."; sleep 5; \
     done
 
